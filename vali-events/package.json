@@ -1,0 +1,40 @@
+{
+  "name": "vali-events",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.1",
+    "autoprefixer": "^10.4.20",
+    "bcryptjs": "^2.4.3",
+    "classnames": "^2.5.1",
+    "date-fns": "^3.6.0",
+    "next": "^14.2.5",
+    "next-auth": "^4.24.7",
+    "nodemailer": "^6.9.14",
+    "postcss": "^8.4.47",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.13",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20.14.10",
+    "@types/nodemailer": "^7.0.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.5",
+    "prisma": "^5.16.1",
+    "typescript": "^5.5.4"
+  }
+}
