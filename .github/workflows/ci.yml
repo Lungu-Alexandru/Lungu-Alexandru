@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install root
+        run: npm ci || npm i
+        working-directory: .
+      - name: Install web
+        run: npm ci || npm i
+        working-directory: gettiks-web
+      - name: Lint web
+        run: npm run lint --if-present
+        working-directory: gettiks-web
+      - name: Type-check web
+        run: npm run type-check --if-present
+        working-directory: gettiks-web
+      - name: Build web
+        run: npm run build --if-present
+        working-directory: gettiks-web
+      - name: Build functions
+        run: npm ci && npm run build
+        working-directory: functions
+

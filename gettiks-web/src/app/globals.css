@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #F5F5F5;
+  --color-text: #212121;
+  --color-blue: #00A3E0;
+  --color-yellow: #FFC107;
+}
+
+html, body, #__next {
+  height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-md bg-brand-blue px-4 py-2 text-white hover:brightness-110 transition;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-md bg-brand-yellow px-4 py-2 text-black hover:brightness-110 transition;
+}
+
