@@ -1,0 +1,51 @@
+{
+  "name": "gettiks-functions",
+  "version": "1.0.0",
+  "description": "Firebase Cloud Functions for Gettiks platform",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "lint": "eslint --ext .js,.ts .",
+    "lint:fix": "eslint --ext .js,.ts . --fix"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "firebase-functions": "^4.5.0",
+    "stripe": "^14.7.0",
+    "nodemailer": "^6.9.7",
+    "qrcode": "^1.5.3",
+    "jspdf": "^2.5.1",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "joi": "^17.11.0",
+    "uuid": "^9.0.1",
+    "moment": "^2.29.4",
+    "handlebars": "^4.7.8",
+    "sharp": "^0.32.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/qrcode": "^1.5.5",
+    "@types/uuid": "^9.0.7",
+    "@types/nodemailer": "^6.4.14",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "eslint-plugin-import": "^2.29.0",
+    "typescript": "^5.3.2"
+  },
+  "private": true
+}
