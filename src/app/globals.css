@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-brand-blue: #00A3E0;
+  --color-brand-yellow: #FFC107;
+  --color-brand-text: #212121;
+  --color-brand-bg: #F5F5F5;
+}
+
+html, body, #__next {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-brand-bg);
+  color: var(--color-brand-text);
+}
+
+.btn-primary {
+  @apply bg-brand-blue text-white px-4 py-2 rounded-md hover:opacity-90 transition;
+}
+
+.btn-accent {
+  @apply bg-brand-yellow text-black px-4 py-2 rounded-md hover:opacity-90 transition;
+}
+

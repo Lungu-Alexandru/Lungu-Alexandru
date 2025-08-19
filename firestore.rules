@@ -1,0 +1,34 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+
+      match /tickets/{ticketId} {
+        allow read, create: if request.auth != null && request.auth.uid == userId;
+        allow delete, update: if false; // Immutable after issuance
+      }
+
+      match /fcmTokens/{tokenId} {
+        allow create, delete, read: if request.auth != null && request.auth.uid == userId;
+        allow update: if false;
+      }
+    }
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow create, update, delete: if request.auth != null && request.auth.token.isOrganizer == true && request.resource.data.ownerId == request.auth.uid;
+
+      match /tickets/{ticketId} {
+        allow read: if true;
+        allow create, update, delete: if request.auth != null && request.auth.token.isOrganizer == true && resource.data.ownerId == request.auth.uid;
+      }
+    }
+
+    match /admin/{document=**} {
+      allow read, write: if request.auth != null && request.auth.token.role == 'admin';
+    }
+  }
+}
+
