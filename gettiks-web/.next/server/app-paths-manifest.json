@@ -1,0 +1,13 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/(auth)/auth/page": "app/(auth)/auth/page.js",
+  "/(organizer)/organizer/page": "app/(organizer)/organizer/page.js",
+  "/(organizer)/organizer/promotions/page": "app/(organizer)/organizer/promotions/page.js",
+  "/(organizer)/organizer/events/new/page": "app/(organizer)/organizer/events/new/page.js",
+  "/(organizer)/organizer/seating/page": "app/(organizer)/organizer/seating/page.js",
+  "/checkout/[eventId]/pay/page": "app/checkout/[eventId]/pay/page.js",
+  "/checkout/[eventId]/page": "app/checkout/[eventId]/page.js",
+  "/explore/page": "app/explore/page.js",
+  "/events/[eventId]/page": "app/events/[eventId]/page.js",
+  "/page": "app/page.js"
+}
