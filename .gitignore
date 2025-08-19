@@ -1,1 +1,9 @@
+.next
+node_modules
+.env
+functions/lib
+firebase-debug.log
+hosting/*.cache
+*.local
+
 node_modules/

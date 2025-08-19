@@ -1,24 +1,40 @@
 {
-  "name": "app",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "gettiks",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "next lint",
+    "postinstall": "node -e \"try{require('fs').mkdirSync('functions', { recursive: true })}catch(e){}\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Lungu-Alexandru/Lungu-Alexandru.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/Lungu-Alexandru/Lungu-Alexandru/issues"
-  },
-  "homepage": "https://github.com/Lungu-Alexandru/Lungu-Alexandru#readme",
   "dependencies": {
-    "express": "^5.1.0"
+    "firebase": "^10.12.2",
+    "firebase-admin": "^12.5.0",
+    "firebase-functions": "^5.0.1",
+    "react-firebase-hooks": "^5.1.1",
+    "i18next": "^23.11.4",
+    "next": "^14.2.11",
+    "next-i18next": "^15.3.1",
+    "qrcode": "^1.5.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.0",
+    "swr": "^2.2.5",
+    "zod": "^3.23.8",
+    "zustand": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.11",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.10",
+    "typescript": "^5.5.4"
   }
 }
+

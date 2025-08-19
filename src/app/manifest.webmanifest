@@ -1,0 +1,10 @@
+{
+  "name": "Gettiks",
+  "short_name": "Gettiks",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F5F5",
+  "theme_color": "#00A3E0",
+  "icons": []
+}
+
