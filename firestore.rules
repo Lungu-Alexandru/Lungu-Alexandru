@@ -1,0 +1,182 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    function isOrganizer() {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ['organizer', 'admin'];
+    }
+    
+    function isOrganizerOfEvent(organizerId) {
+      return isAuthenticated() && request.auth.uid == organizerId;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+      allow read: if isAdmin();
+      allow create: if isAuthenticated() && request.auth.uid == userId &&
+                   request.data.keys().hasAll(['email', 'role', 'createdAt']) &&
+                   request.data.role in ['user', 'organizer'] &&
+                   request.data.email == request.auth.token.email;
+    }
+
+    // Events collection
+    match /events/{eventId} {
+      allow read: if resource.data.status == 'approved' || 
+                     isOrganizerOfEvent(resource.data.organizerId) || 
+                     isAdmin();
+      allow create: if isOrganizer() && 
+                       request.data.organizerId == request.auth.uid &&
+                       request.data.status == 'pending';
+      allow update: if isOrganizerOfEvent(resource.data.organizerId) || isAdmin();
+      allow delete: if isOrganizerOfEvent(resource.data.organizerId) || isAdmin();
+
+      // Event analytics subcollection
+      match /analytics/{analyticsId} {
+        allow read, write: if isOrganizerOfEvent(get(/databases/$(database)/documents/events/$(eventId)).data.organizerId) || isAdmin();
+      }
+
+      // Event promotions subcollection
+      match /promotions/{promotionId} {
+        allow read, write: if isOrganizerOfEvent(get(/databases/$(database)/documents/events/$(eventId)).data.organizerId) || isAdmin();
+      }
+    }
+
+    // Orders collection
+    match /orders/{orderId} {
+      allow read, write: if isOwner(resource.data.userId) || isAdmin();
+      allow create: if isAuthenticated() && request.data.userId == request.auth.uid;
+      
+      // Order tickets subcollection
+      match /tickets/{ticketId} {
+        allow read: if isOwner(get(/databases/$(database)/documents/orders/$(orderId)).data.userId) || isAdmin();
+        allow write: if isOwner(get(/databases/$(database)/documents/orders/$(orderId)).data.userId) || isAdmin();
+      }
+    }
+
+    // Tickets collection (global tickets for easier querying)
+    match /tickets/{ticketId} {
+      allow read: if isOwner(resource.data.userId) || 
+                     isOrganizerOfEvent(get(/databases/$(database)/documents/events/$(resource.data.eventId)).data.organizerId) ||
+                     isAdmin();
+      allow create: if isAuthenticated() && request.data.userId == request.auth.uid;
+      allow update: if isOwner(resource.data.userId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Notifications collection
+    match /notifications/{notificationId} {
+      allow read, write: if isOwner(resource.data.userId);
+      allow create: if isAuthenticated();
+    }
+
+    // Reviews collection
+    match /reviews/{reviewId} {
+      allow read: if true; // Reviews are public
+      allow create: if isAuthenticated() && request.data.userId == request.auth.uid;
+      allow update, delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+
+    // Categories collection (read-only for most users)
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Venues collection
+    match /venues/{venueId} {
+      allow read: if true; // Venues are public
+      allow create: if isOrganizer();
+      allow update, delete: if isOwner(resource.data.createdBy) || isAdmin();
+    }
+
+    // Payment methods collection
+    match /paymentMethods/{methodId} {
+      allow read, write: if isOwner(resource.data.userId);
+      allow create: if isAuthenticated() && request.data.userId == request.auth.uid;
+    }
+
+    // Favorites collection
+    match /favorites/{favoriteId} {
+      allow read, write: if isOwner(resource.data.userId);
+      allow create: if isAuthenticated() && request.data.userId == request.auth.uid;
+    }
+
+    // Analytics collection (admin only)
+    match /analytics/{analyticsId} {
+      allow read, write: if isAdmin();
+    }
+
+    // System settings (admin only)
+    match /settings/{settingId} {
+      allow read: if true; // Some settings might be public
+      allow write: if isAdmin();
+    }
+
+    // Organizer applications
+    match /organizerApplications/{applicationId} {
+      allow read, write: if isOwner(resource.data.userId) || isAdmin();
+      allow create: if isAuthenticated() && request.data.userId == request.auth.uid;
+    }
+
+    // Support tickets
+    match /supportTickets/{ticketId} {
+      allow read, write: if isOwner(resource.data.userId) || isAdmin();
+      allow create: if isAuthenticated() && request.data.userId == request.auth.uid;
+    }
+
+    // Seat maps for events with seating
+    match /seatMaps/{seatMapId} {
+      allow read: if true; // Seat maps are public for event viewing
+      allow write: if isOrganizer() || isAdmin();
+    }
+
+    // Blocked users (admin only)
+    match /blockedUsers/{userId} {
+      allow read, write: if isAdmin();
+    }
+
+    // Event reports
+    match /eventReports/{reportId} {
+      allow read: if isAdmin();
+      allow create: if isAuthenticated();
+      allow update: if isAdmin();
+    }
+
+    // Newsletter subscriptions
+    match /newsletter/{subscriptionId} {
+      allow read, write: if isOwner(resource.data.userId) || isAdmin();
+      allow create: if isAuthenticated();
+    }
+
+    // Coupons and discounts
+    match /coupons/{couponId} {
+      allow read: if isAuthenticated(); // Users need to see available coupons
+      allow write: if isOrganizer() || isAdmin();
+    }
+
+    // Event waitlists
+    match /waitlists/{waitlistId} {
+      allow read, write: if isOwner(resource.data.userId) || 
+                            isOrganizerOfEvent(get(/databases/$(database)/documents/events/$(resource.data.eventId)).data.organizerId) ||
+                            isAdmin();
+      allow create: if isAuthenticated() && request.data.userId == request.auth.uid;
+    }
+  }
+}
