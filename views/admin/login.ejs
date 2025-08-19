@@ -1,0 +1,15 @@
+<%- include('../partials/header', { title: 'Admin Login' }) %>
+<section class="container" style="margin-top:24px;">
+  <div class="card" style="max-width:420px; margin:0 auto;">
+    <h1>Autentificare</h1>
+    <% if (typeof error !== 'undefined') { %>
+      <p style="color:crimson;"><%= error %></p>
+    <% } %>
+    <form method="post" action="/admin/login">
+      <input type="email" name="email" placeholder="Email admin" required style="padding:10px;border-radius:8px;border:1px solid #ddd;">
+      <button class="btn-primary" type="submit">Intră</button>
+    </form>
+  </div>
+</section>
+<%- include('../partials/footer') %>
+
