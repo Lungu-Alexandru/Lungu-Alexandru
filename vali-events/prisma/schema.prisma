@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  phone         String?
+  passwordHash  String
+  role          String   @default("CLIENT") // ADMIN | CLIENT
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  enrollments   Enrollment[]
+}
+
+model Event {
+  id           String    @id @default(cuid())
+  title        String
+  description  String
+  category     String
+  startDate    DateTime
+  endDate      DateTime?
+  time         String?
+  location     String
+  purchaseLink String?
+  status       String   @default("FUTURE") // FUTURE | EXPIRED
+  views        Int       @default(0)
+  clicks       Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  enrollments  Enrollment[]
+  images       EventImage[]
+}
+
+model Enrollment {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String
+  status    String   @default("PENDING") // PENDING | PAID | FAILED | REFUNDED
+  createdAt DateTime @default(now())
+  payment   Payment?
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
+  enrollmentId  String   @unique
+  method        String   // Revolut
+  amount        Int
+  currency      String   @default("RON")
+  status        String   @default("PENDING")
+  createdAt     DateTime @default(now())
+}
+
+model Article {
+  id            String   @id @default(cuid())
+  title         String
+  content       String
+  publishedAt   DateTime @default(now())
+  images        ArticleImage[]
+}
+
+model EventImage {
+  id      String @id @default(cuid())
+  url     String
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+}
+
+model ArticleImage {
+  id        String @id @default(cuid())
+  url       String
+  article   Article @relation(fields: [articleId], references: [id])
+  articleId String
+}
+

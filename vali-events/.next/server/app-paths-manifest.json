@@ -1,0 +1,21 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/articles/route": "app/api/articles/route.js",
+  "/api/email/send-ticket/route": "app/api/email/send-ticket/route.js",
+  "/api/enrollments/route": "app/api/enrollments/route.js",
+  "/api/events/route": "app/api/events/route.js",
+  "/api/events/[id]/route": "app/api/events/[id]/route.js",
+  "/api/health/route": "app/api/health/route.js",
+  "/api/revolut/create-order/route": "app/api/revolut/create-order/route.js",
+  "/api/payments/route": "app/api/payments/route.js",
+  "/page": "app/page.js",
+  "/(site)/blog/page": "app/(site)/blog/page.js",
+  "/(site)/contact/page": "app/(site)/contact/page.js",
+  "/(site)/blog/[id]/page": "app/(site)/blog/[id]/page.js",
+  "/(site)/despre/page": "app/(site)/despre/page.js",
+  "/(site)/evenimente-reusite/page": "app/(site)/evenimente-reusite/page.js",
+  "/admin/evenimente/page": "app/admin/evenimente/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/(site)/evenimente/[id]/page": "app/(site)/evenimente/[id]/page.js",
+  "/(site)/evenimente/page": "app/(site)/evenimente/page.js"
+}

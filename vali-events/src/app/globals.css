@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-dark-blue: #0B3D91;
+  --color-light-blue: #4A90E2;
+  --color-warm-orange: #F5A623;
+  --color-light-gray: #F2F2F2;
+  --color-dark-gray: #4A4A4A;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  color: var(--color-dark-gray);
+  background: white;
+}
+
+.container-default {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-md bg-brand-warmOrange text-white px-4 py-2 text-sm font-semibold hover:brightness-95 active:brightness-90 transition; 
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-md bg-brand-lightBlue text-white px-4 py-2 text-sm font-semibold hover:brightness-95 active:brightness-90 transition; 
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center rounded-md border border-brand-darkBlue text-brand-darkBlue px-4 py-2 text-sm font-semibold hover:bg-brand-darkBlue hover:text-white transition; 
+}
+
