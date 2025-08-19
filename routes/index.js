@@ -1,34 +1,39 @@
 const express = require('express');
 const router = express.Router();
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-// Home page
 router.get('/', (req, res) => {
-    res.render('home', { title: 'Acasă' });
+  res.render('home', { title: 'Acasă' });
 });
 
-// Wine page
-router.get('/vin', (req, res) => {
-    res.render('wine', { title: 'Vin' });
+router.get('/evenimente', async (req, res) => {
+  res.render('events/list', { title: 'Evenimente' });
 });
 
-// Food page
-router.get('/mancare', (req, res) => {
-    res.render('food', { title: 'Mâncare' });
+router.get('/evenimente/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  const event = await prisma.event.findUnique({ where: { id }, include: { images: true, galleries: true } });
+  if (!event) return res.status(404).send('Eveniment inexistent');
+  res.render('events/detail', { title: event.title, event });
 });
 
-// Travel page
-router.get('/calatorii', (req, res) => {
-    res.render('travel', { title: 'Călătorii' });
+router.get('/evenimente-reusite', async (req, res) => {
+  const items = await prisma.event.findMany({ where: { status: 'EXPIRED' }, orderBy: { startDate: 'desc' }, include: { images: true } });
+  res.render('events/past', { title: 'Evenimente reușite', items });
 });
 
-// Explore More page
-router.get('/explore-more', (req, res) => {
-    res.render('explore-more', { title: 'Explore More' });
+router.get('/blog', async (req, res) => {
+  const posts = await prisma.article.findMany({ orderBy: { publishedAt: 'desc' }, include: { images: true } });
+  res.render('blog/list', { title: 'Blog', posts });
 });
 
-// Private Club page
-router.get('/club-privat', (req, res) => {
-    res.render('private-club', { title: 'Club Privat' });
+router.get('/despre', (_req, res) => {
+  res.render('about', { title: 'Despre' });
+});
+
+router.get('/contact', (_req, res) => {
+  res.render('contact', { title: 'Contact' });
 });
 
 module.exports = router;

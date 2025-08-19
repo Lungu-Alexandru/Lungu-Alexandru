@@ -1,0 +1,31 @@
+<%- include('../partials/header', { title: 'Panou Admin' }) %>
+<section class="container" style="margin-top:24px;">
+  <h1>Panou de control</h1>
+  <p>Bun venit! <a href="/admin/events/new" class="btn">Adaugă eveniment</a> · <a href="/admin/logout">Delogare</a></p>
+  <div class="grid">
+    <div class="card">
+      <h3>Statistici</h3>
+      <p>Vizualizări: <%= stats.views %></p>
+      <p>Înscrieri: <%= stats.registrations %></p>
+      <p>Plăți reușite: <%= stats.payments %></p>
+    </div>
+    <div class="card">
+      <h3>Ultimele evenimente</h3>
+      <ul>
+        <% events.forEach(e => { %>
+          <li><%= e.title %> — <%= new Date(e.startDate).toLocaleDateString('ro-RO') %></li>
+        <% }) %>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Articole recente</h3>
+      <ul>
+        <% articles.forEach(a => { %>
+          <li><%= a.title %></li>
+        <% }) %>
+      </ul>
+    </div>
+  </div>
+</section>
+<%- include('../partials/footer') %>
+

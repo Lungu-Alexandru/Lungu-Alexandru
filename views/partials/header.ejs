@@ -3,20 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TheWineFather - <%= title %></title>
+    <title>Vali Events - <%= title %></title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        :root { --navy: #0B3D91; --blue: #4A90E2; --orange: #F5A623; --grayLight: #F2F2F2; --grayDark: #4A4A4A; }
+        *{ box-sizing: border-box; }
+        body { margin:0; background: var(--grayLight); color: var(--grayDark); font-family: 'Open Sans', 'Lato', sans-serif; }
+        h1,h2,h3 { font-family: 'Montserrat','Poppins',sans-serif; color: var(--navy); }
+        header { background: var(--navy); color: #fff; position: sticky; top:0; z-index:50; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 12px 16px; }
+        .nav { display:flex; align-items:center; justify-content:space-between; }
+        .brand { font-weight:800; letter-spacing:.4px; }
+        .menu a { color:#fff; margin-left:16px; }
+        .btn { background: var(--orange); color:#000; padding:8px 12px; border-radius:8px; font-weight:700; }
+    </style>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="/">Acasă</a></li>
-            <li><a href="/vin">Vin</a></li>
-            <li><a href="/mancare">Mâncare</a></li>
-            <li><a href="/calatorii">Călătorii</a></li>
-            <li><a href="/explore-more">Explore More</a></li>
-            <li><a href="/club-privat">Club Privat</a></li>
-        </ul>
-    </nav>
+    <header>
+        <div class="container nav">
+            <div class="brand"><a href="/" style="color:#fff">Vali Events</a></div>
+            <nav class="menu">
+                <a href="/">Acasă</a>
+                <a href="/evenimente">Evenimente</a>
+                <a href="/evenimente-reusite">Evenimente reușite</a>
+                <a href="/blog">Blog</a>
+                <a href="/despre">Despre</a>
+                <a href="/contact">Contact</a>
+                <a class="btn" href="/admin">Admin</a>
+            </nav>
+        </div>
+    </header>

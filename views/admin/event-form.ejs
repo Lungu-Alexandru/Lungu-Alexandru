@@ -1,0 +1,17 @@
+<%- include('../partials/header', { title: 'Eveniment nou' }) %>
+<section class="container" style="margin-top:24px;">
+  <h1>Adaugă eveniment</h1>
+  <form method="post" action="/admin/events">
+    <input type="text" name="title" placeholder="Titlu" required style="padding:10px;border-radius:8px;border:1px solid #ddd;">
+    <textarea name="description" placeholder="Descriere" required style="padding:10px;border-radius:8px;border:1px solid #ddd;width:100%;height:120px;"></textarea>
+    <input type="text" name="category" placeholder="Categorie" required style="padding:10px;border-radius:8px;border:1px solid #ddd;">
+    <input type="datetime-local" name="startDate" required style="padding:10px;border-radius:8px;border:1px solid #ddd;">
+    <input type="datetime-local" name="endDate" style="padding:10px;border-radius:8px;border:1px solid #ddd;">
+    <input type="text" name="time" placeholder="Oră" style="padding:10px;border-radius:8px;border:1px solid #ddd;">
+    <input type="text" name="location" placeholder="Locație" required style="padding:10px;border-radius:8px;border:1px solid #ddd;">
+    <input type="url" name="purchaseLink" placeholder="Link achiziție" style="padding:10px;border-radius:8px;border:1px solid #ddd;">
+    <button class="btn-primary" type="submit">Salvează</button>
+  </form>
+</section>
+<%- include('../partials/footer') %>
+

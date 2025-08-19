@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int       @id @default(autoincrement())
+  name              String
+  email             String    @unique
+  phone             String?
+  passwordHash      String
+  role              UserRole  @default(CLIENT)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  registrations     Registration[]
+  testimonials      Testimonial[]
+}
+
+enum UserRole {
+  ADMIN
+  CLIENT
+}
+
+model Event {
+  id            Int           @id @default(autoincrement())
+  title         String
+  description   String
+  category      String
+  startDate     DateTime
+  endDate       DateTime?
+  time          String?
+  location      String
+  purchaseLink  String?
+  status        EventStatus   @default(UPCOMING)
+  images        Image[]
+  galleries     Media[]
+  interactions  Interaction[]
+  registrations Registration[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+enum EventStatus {
+  UPCOMING
+  EXPIRED
+}
+
+model Image {
+  id        Int    @id @default(autoincrement())
+  url       String
+  alt       String?
+  event     Event? @relation(fields: [eventId], references: [id])
+  eventId   Int?
+  article   Article? @relation(fields: [articleId], references: [id])
+  articleId Int?
+}
+
+model Media {
+  id       Int    @id @default(autoincrement())
+  type     String // photo or video url
+  url      String
+  event    Event? @relation(fields: [eventId], references: [id])
+  eventId  Int?
+}
+
+model Registration {
+  id          Int       @id @default(autoincrement())
+  event       Event     @relation(fields: [eventId], references: [id])
+  eventId     Int
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  registeredAt DateTime @default(now())
+  payment     Payment?
+  status      RegistrationStatus @default(PENDING)
+}
+
+enum RegistrationStatus {
+  PENDING
+  PAID
+  CANCELED
+}
+
+model Payment {
+  id             Int       @id @default(autoincrement())
+  registration   Registration @relation(fields: [registrationId], references: [id])
+  registrationId Int       @unique
+  method         String    // Revolut
+  amount         Int       // in minor units (e.g., cents)
+  currency       String    @default("RON")
+  date           DateTime  @default(now())
+  status         String
+}
+
+model Article {
+  id           Int      @id @default(autoincrement())
+  title        String
+  content      String
+  images       Image[]
+  publishedAt  DateTime @default(now())
+}
+
+model Testimonial {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  content   String
+  rating    Int
+  createdAt DateTime @default(now())
+}
+
+model Interaction {
+  id        Int      @id @default(autoincrement())
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   Int
+  type      String   // view, click_details, click_participate
+  createdAt DateTime @default(now())
+}
+
